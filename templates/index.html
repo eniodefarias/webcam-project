@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Stream</title>
+    <script>
+        // Função para mudar a câmera
+        function changeCamera(index) {
+            fetch('/change_camera', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ camera_index: index }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    console.log("Câmera trocada para índice: " + index);
+                } else {
+                    console.error("Erro ao trocar de câmera.");
+                }
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- <h1>Live Stream da Webcam</h1> -->
+    <img style="max-width: 640px; max-height: 480px; width: 100%;" src="{{ url_for('video_feed') }}">
+
+    <div>
+        <button onclick="changeCamera(0)">0</button>
+        <button onclick="changeCamera(1)">1</button>
+        <button onclick="changeCamera(2)">2</button>
+        <button onclick="changeCamera(3)">3</button>
+        <button onclick="changeCamera(4)">4</button>
+        <button onclick="changeCamera(5)">5</button>
+        <button onclick="changeCamera(6)">6</button>
+    </div>
+    <a href="">video</a>
+    <p>v4l2-ctl --list-devices</p>
+</body>
+</html>
